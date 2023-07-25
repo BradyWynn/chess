@@ -8,10 +8,10 @@ public class MyBot : IChessBot
 {
     public Move Think(Board board, Timer timer)
     {
-        var b = System.Numerics.BigInteger.Parse("2");
+        // var b = System.Numerics.BigInteger.Parse("2");
         // double[,] w1 = {{}};
         // double[,] a = FenToArray(board.GetFenString());
-        Console.Write(a * b);
+        // Console.Write(a * b);
         // double[,] a = {{7}, {3}, {2}};
         // double[,] b = {{7, 1, 18}};
         // double[,] c = MatMul(a, w1);
@@ -23,6 +23,11 @@ public class MyBot : IChessBot
         // }
         // Console.WriteLine(board.GetFenString());
         Move[] moves = board.GetLegalMoves();
+        for(int i = 0; i < moves.Length; i++){
+            board.MakeMove(moves[i]);
+            Console.Write(board.GetFenString() + "\n");
+            board.UndoMove(moves[i]);
+        }
         // Console.WriteLine(board.GetPieceBitboard(PieceType.Pawn, true));
         return moves[0];
     }
