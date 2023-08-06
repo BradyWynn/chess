@@ -1,5 +1,5 @@
 ﻿using ChessChallenge.Chess;
-// using ChessChallenge.Example;
+using ChessChallenge.Example;
 using Raylib_cs;
 using System;
 using System.IO;
@@ -19,14 +19,19 @@ namespace ChessChallenge.Application
         {
             Human,
             MyBot,
-            EvilBot
+            EvilBot,
+            T1,
+            Barnes1
         }
 
         // Game state
-        readonly Random rng;
+        Random rng;
         int gameID;
         bool isPlaying;
         Board board;
+        int totalMovesPlayed = 0;
+        public int trueTotalMovesPlayed = 0;
+
         public ChessPlayer PlayerWhite { get; private set; }
         public ChessPlayer PlayerBlack {get;private set;}
 
@@ -53,13 +58,12 @@ namespace ChessChallenge.Application
         readonly BoardUI boardUI;
         readonly MoveGenerator moveGenerator;
         readonly int tokenCount;
-        readonly int debugTokenCount;
         readonly StringBuilder pgns;
 
         public ChallengeController()
         {
             Log($"Launching Chess-Challenge version {Settings.Version}");
-            (tokenCount, debugTokenCount) = GetTokenCount();
+            tokenCount = GetTokenCount();
             Warmer.Warm();
 
             rng = new Random();
@@ -111,6 +115,8 @@ namespace ChessChallenge.Application
             // Start
             isPlaying = true;
             NotifyTurnToMove();
+
+            trueTotalMovesPlayed += totalMovesPlayed;
         }
 
         void BotThinkerThread()
@@ -146,8 +152,9 @@ namespace ChessChallenge.Application
             API.Board botBoard = new(board);
             try
             {
-                API.Timer timer = new(PlayerToMove.TimeRemainingMs, PlayerNotOnMove.TimeRemainingMs, GameDurationMilliseconds, IncrementMilliseconds);
+                API.Timer timer = new(PlayerToMove.TimeRemainingMs, PlayerNotOnMove.TimeRemainingMs, GameDurationMilliseconds);
                 API.Move move = PlayerToMove.Bot.Think(botBoard, timer);
+                totalMovesPlayed++;
                 return new Move(move.RawValue);
             }
             catch (Exception e)
@@ -210,11 +217,13 @@ namespace ChessChallenge.Application
             {
                 PlayerType.MyBot => new ChessPlayer(new MyBot(), type, GameDurationMilliseconds),
                 PlayerType.EvilBot => new ChessPlayer(new EvilBot(), type, GameDurationMilliseconds),
+                PlayerType.T1 => new ChessPlayer(new T1(), type, GameDurationMilliseconds),
+                PlayerType.Barnes1 => new ChessPlayer(new Barnes1(), type, GameDurationMilliseconds),
                 _ => new ChessPlayer(new HumanPlayer(boardUI), type)
             };
         }
 
-        static (int totalTokenCount, int debugTokenCount) GetTokenCount()
+        static int GetTokenCount()
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "src", "My Bot", "MyBot.cs");
 
@@ -227,7 +236,6 @@ namespace ChessChallenge.Application
         {
             if (IsLegal(chosenMove))
             {
-                PlayerToMove.AddIncrement(IncrementMilliseconds);
                 if (PlayerToMove.IsBot)
                 {
                     moveToPlay = chosenMove;
@@ -386,10 +394,9 @@ namespace ChessChallenge.Application
             string nameB = GetPlayerName(PlayerBlack);
             boardUI.DrawPlayerNames(nameW, nameB, PlayerWhite.TimeRemainingMs, PlayerBlack.TimeRemainingMs, isPlaying);
         }
-
         public void DrawOverlay()
         {
-            BotBrainCapacityUI.Draw(tokenCount, debugTokenCount, MaxTokenCount);
+            BotBrainCapacityUI.Draw(tokenCount, MaxTokenCount);
             MenuUI.DrawButtons(this);
             MatchStatsUI.DrawMatchStats(this);
         }
