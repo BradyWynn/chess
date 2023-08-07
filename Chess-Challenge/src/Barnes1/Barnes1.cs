@@ -166,21 +166,21 @@ public class Barnes1 : IChessBot
 
         }
     }
-    double[,] MatMul(double[,] a, double[,] b){
-        double[,] c = new double[a.GetLength(0), b.GetLength(1)];
-        for(int row = 0; row < a.GetLength(0); row++){
-            for(int col = 0; col < b.GetLength(1); col++){
-                double[] x = new double[a.GetLength(1)];
-                for(int i = 0; i < x.Length; i++){
-                    x[i] = a[row, i];
+    static double[,] MatMul(double[,] a, double[,] b){
+        int rowsA = a.GetLength(0);
+        int colsA = a.GetLength(1);
+        int colsB = b.GetLength(1);
+
+        double[,] c = new double[rowsA, colsB];
+
+        for (int row = 0; row < rowsA; row++){
+            for (int i = 0; i < colsA; i++){
+                for (int col = 0; col < colsB; col++){
+                    c[row, col] += a[row, i] * b[i, col];
                 }
-                double[] y = new double[b.GetLength(0)];
-                for(int i = 0; i < y.Length; i++){
-                    y[i] = b[i, col];
-                }
-                c[row, col] = Dot(x, y);
             }
         }
+
         return c;
     }
     double[,] MulMat(double[,] a, double b){
