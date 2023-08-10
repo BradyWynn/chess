@@ -41,6 +41,12 @@ namespace ChessChallenge.Application
             {
                 controller.StartNewBotMatch(ChallengeController.PlayerType.MyBot, ChallengeController.PlayerType.Barnes2);
             }
+            if (NextButtonInRow("Human vs T1", ref buttonPos, spacing, buttonSize))
+            {
+                var whiteType = controller.HumanWasWhiteLastGame ? ChallengeController.PlayerType.T1 : ChallengeController.PlayerType.Human;
+                var blackType = !controller.HumanWasWhiteLastGame ? ChallengeController.PlayerType.T1 : ChallengeController.PlayerType.Human;
+                controller.StartNewGame(whiteType, blackType);
+            }
 
 
             // Page buttons

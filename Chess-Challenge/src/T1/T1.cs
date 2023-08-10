@@ -6,18 +6,20 @@ namespace ChessChallenge.Example
     public class T1 : IChessBot
     {
         //                     .  P    K    B    R    Q    K
-        int[] kPieceValues = { 0, 100, 300, 310, 500, 900, 10000 };
-        int kMassiveNum = 99999999;
+        readonly int[] kPieceValues = { 0, 100, 300, 310, 500, 900, 10000 };
+        readonly int kMassiveNum = 99999999;
 
         int mDepth;
         Move mBestMove;
 
         public Move Think(Board board, Timer timer)
         {
-            Move[] legalMoves = board.GetLegalMoves();
-            mDepth = 3;
+            // Move[] legalMoves = board.GetLegalMoves();
+            mDepth = 4;
 
             EvaluateBoardNegaMax(board, mDepth, -kMassiveNum, kMassiveNum, board.IsWhiteToMove ? 1 : -1);
+            board.MakeMove(mBestMove);
+            // Console.WriteLine(board.GetFenString());
 
             return mBestMove;
         }
@@ -37,6 +39,11 @@ namespace ChessChallenge.Example
                 if (board.IsInCheckmate())
                     return -9999999;
 
+                // subtracting all the white pieces from the black pieces
+                // this produces high value when white is winning and low value when black is winning
+                // this is why we need to multiply the final sum by the color variable
+                // 1 for white and -1 for black meaning that the returned value will be high whenever the 
+                // current color is doing well and low for when their position is bad
                 for (int i = 0; ++i < 7;)
                     sum += (board.GetPieceList((PieceType)i, true).Count - board.GetPieceList((PieceType)i, false).Count) * kPieceValues[i];
                 // EVALUATE
@@ -55,8 +62,9 @@ namespace ChessChallenge.Example
                 if (recordEval < evaluation)
                 {
                     recordEval = evaluation;
-                    if (depth == mDepth)
+                    if (depth == mDepth){
                         mBestMove = move;
+                    }
                 }
                 alpha = Math.Max(alpha, recordEval);
                 if (alpha >= beta) break;

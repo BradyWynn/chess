@@ -53,7 +53,6 @@ public class Barnes2 : IChessBot
             mDepth = depth;
             Search(board, mDepth, -100, 100);
             if(searchCancelled){
-                Console.WriteLine(depth);
                 break;
             }
             else{

@@ -22,7 +22,7 @@ namespace ChessChallenge.Application
             EvilBot,
             T1,
             Barnes1,
-            Barnes2
+            Barnes2,
         }
 
         // Game state
