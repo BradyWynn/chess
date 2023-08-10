@@ -11,36 +11,37 @@ public class MyBot : IChessBot
     Matrix4x4[,] q_w1 = new Matrix4x4[96, 4];
     Matrix4x4[,] q_w2 = new Matrix4x4[4, 4];
     Matrix4x4[,] q_w3 = new Matrix4x4[4, 1];
-    Matrix4x4[,] b1 = new Matrix4x4[4, 1]{
+    Matrix4x4[,] b1 = new Matrix4x4[1, 4]{
                     {new Matrix4x4(-0.2105952948331833f, 0.3373734652996063f, -2.665067672729492f, -0.17655938863754272f,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
-                                    0, 0, 0, 0)},
-                    {new Matrix4x4(-0.18837878108024597f, -0.31420087814331055f, -2.4298295974731445f, 0.8483097553253174f,
+                                    0, 0, 0, 0),
+                    new Matrix4x4(-0.18837878108024597f, -0.31420087814331055f, -2.4298295974731445f, 0.8483097553253174f,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
-                                    0, 0, 0, 0)}, 
-                    {new Matrix4x4(-0.16813413798809052f, -0.5404060482978821f, 1.6258624792099f, -0.21038718521595f, 
+                                    0, 0, 0, 0), 
+                    new Matrix4x4(-0.16813413798809052f, -0.5404060482978821f, 1.6258624792099f, -0.21038718521595f, 
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
-                                    0, 0, 0, 0)},
-                    {new Matrix4x4(0.9587255716323853f, -0.14954684674739838f, 1.1288930177688599f, -0.3819195330142975f,
+                                    0, 0, 0, 0),
+                    new Matrix4x4(0.9587255716323853f, -0.14954684674739838f, 1.1288930177688599f, -0.3819195330142975f,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0)}};
-    Matrix4x4[,] b2 = {{new Matrix4x4(-0.37279853224754333f, 2.0980989933013916f, 0.4406026005744934f, 1.8609669208526611f,
+    Matrix4x4[,] b2 = new Matrix4x4[1, 4]{
+                        {new Matrix4x4(-0.37279853224754333f, 2.0980989933013916f, 0.4406026005744934f, 1.8609669208526611f,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
-                                    0, 0, 0, 0)}, 
-                        {new Matrix4x4(-0.4291727840900421f, 1.9326260089874268f, 0.8186648488044739f, 1.2451813220977783f,
+                                    0, 0, 0, 0), 
+                        new Matrix4x4(-0.4291727840900421f, 1.9326260089874268f, 0.8186648488044739f, 1.2451813220977783f,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
-                                    0, 0, 0, 0)}, 
-                        {new Matrix4x4(1.0008747577667236f, -0.25214970111846924f, -0.650875985622406f, -2.5601110458374023f,
+                                    0, 0, 0, 0), 
+                        new Matrix4x4(1.0008747577667236f, -0.25214970111846924f, -0.650875985622406f, -2.5601110458374023f,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
-                                    0, 0, 0, 0)}, 
-                        {new Matrix4x4(-0.7385462522506714f, -0.7589142322540283f, -0.37014609575271606f, 0.5667510032653809f, 
+                                    0, 0, 0, 0), 
+                        new Matrix4x4(-0.7385462522506714f, -0.7589142322540283f, -0.37014609575271606f, 0.5667510032653809f, 
                                     0, 0, 0, 0,
                                     0, 0, 0, 0,
                                     0, 0, 0, 0)}};
@@ -54,10 +55,11 @@ public class MyBot : IChessBot
     float w2_S = 0.020057767629623413f;
 
     float w3_S = 0.011218558996915817f;
-    // bool searchCancelled => searchTimer.MillisecondsElapsedThisTurn > searchMaxTime;
-    // int searchMaxTime;
-    // Timer searchTimer;
+    bool searchCancelled => searchTimer.MillisecondsElapsedThisTurn > searchMaxTime;
+    int searchMaxTime;
+    Timer searchTimer;
     Board m_board;
+    int moves_searched;
 
     struct Transposition
     {
@@ -106,10 +108,10 @@ public class MyBot : IChessBot
         m_TPTable = new Transposition[0x800000]; // intializes transposition table with 8 million spaces
     }
     public Move Think(Board board, Timer timer){
-        // searchMaxTime = timer.MillisecondsRemaining / 50;
-        // searchTimer = timer;
+        moves_searched = 0;
+        searchMaxTime = timer.MillisecondsRemaining / 50;
+        searchTimer = timer;
         m_board = board;
-        Console.WriteLine(Eval(BoardToBit()));
         // Console.WriteLine(q_w1[0, 0]);
         // set the best move to the index of the zobristkey
         // we do the bitwise and weirdness because the entire zobrist key is 64 bits
@@ -118,17 +120,18 @@ public class MyBot : IChessBot
         // with 23 1's in binary to only get the first 23 numbers of the zobrist
         // key which we then use to index into an array of only 2^23 elements
         // which is much more managable
-        Transposition bestMove;
+        // Transposition bestMove = m_TPTable[board.ZobristKey & 0x7FFFFF];
         // for(int depth = 1; depth < 5; depth++){
-        // Search(4, -100, 100);
-        bestMove = m_TPTable[board.ZobristKey & 0x7FFFFF];
+        Search(5, -100, 100);
+        Transposition bestMove = m_TPTable[board.ZobristKey & 0x7FFFFF];
             // Console.WriteLine(depth + " " + timer.MillisecondsElapsedThisTurn + " " + bestMove.move + " " + bestMove.evaluation);
 
-            // if(searchCancelled){
-            //     break;
-            // }
+        //     if(searchCancelled){
+        //         break;
+        //     }
         // }
         // Console.WriteLine(bestMove.evaluation);
+        Console.WriteLine(moves_searched);
         return bestMove.move;
     }
     float Eval(float[,] a){
@@ -139,12 +142,9 @@ public class MyBot : IChessBot
                                         0, 0, 0, 0,
                                         0, 0, 0, 0);
         }
-        Console.WriteLine(PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b3)[0, 0]);
-        // Console.WriteLine(PLUG(MatMul(input, q_w1), w1_S, b1)[0, 0]);
-        // Console.WriteLine(PLUG(MatMul(input, q_w1), w1_S, b1)[0, 1]);
-        // Console.WriteLine(PLUG(MatMul(input, q_w1), w1_S, b1)[0, 2]);
-        // Console.WriteLine(PLUG(MatMul(input, q_w1), w1_S, b1)[0, 3]);
-        return 0;
+        // Console.WriteLine(PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b1)[0, 0]);
+        moves_searched++;
+        return PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b3)[0, 0].M11;
     }
     float[,] BoardToBit(){
         float[,] bit = new float[1, 384];
@@ -178,66 +178,66 @@ public class MyBot : IChessBot
     //     }
     //     return alpha;
     // }
-    // float Search(int depth, float alpha, float beta){
-    //     // if(searchCancelled) return 0;
+    float Search(int depth, float alpha, float beta){
+        // if(searchCancelled) return 0;
 
-    //     float startingAlpha = alpha;
+        float startingAlpha = alpha;
         
-    //     //See if we've checked this board state before
-    //     ref Transposition transposition = ref m_TPTable[m_board.ZobristKey & 0x7FFFFF];
-    //     if(transposition.zobristHash == m_board.ZobristKey && transposition.depth >= depth){
-    //         //If we have an "exact" score (a < score < beta) just use that
-    //         if(transposition.flag == 1) return transposition.evaluation;
-    //         //If we have a lower bound better than beta, use that
-    //         if(transposition.flag == 2 && transposition.evaluation >= beta)  return transposition.evaluation;
-    //         //If we have an upper bound worse than alpha, use that
-    //         if(transposition.flag == 3 && transposition.evaluation <= alpha) return transposition.evaluation;
-    //     }
+        //See if we've checked this board state before
+        ref Transposition transposition = ref m_TPTable[m_board.ZobristKey & 0x7FFFFF];
+        if(transposition.zobristHash == m_board.ZobristKey && transposition.depth >= depth){
+            //If we have an "exact" score (a < score < beta) just use that
+            if(transposition.flag == 1) return transposition.evaluation;
+            //If we have a lower bound better than beta, use that
+            if(transposition.flag == 2 && transposition.evaluation >= beta)  return transposition.evaluation;
+            //If we have an upper bound worse than alpha, use that
+            if(transposition.flag == 3 && transposition.evaluation <= alpha) return transposition.evaluation;
+        }
         
-    //     Move[] moves;
+        Move[] moves;
         
-    //     if(m_board.IsDraw()) return 0;
-    //     // if we have reached our depth evaluate the position
-    //     // evaluation function produces values close to 1 for winning positions
-    //     // and values close to 0 for losing positions regardless of color
-    //     if(depth == 0 || (moves = m_board.GetLegalMoves()).Length == 0) return Quiesce(alpha, beta); 
+        if(m_board.IsDraw()) return 0;
+        // if we have reached our depth evaluate the position
+        // evaluation function produces values close to 1 for winning positions
+        // and values close to 0 for losing positions regardless of color
+        if(depth == 0 || (moves = m_board.GetLegalMoves()).Length == 0) return Eval(BoardToBit()); 
 
-    //     // OrderMoves(ref moves, depth);
+        // OrderMoves(ref moves, depth);
         
-    //     float bestEvaluation = -1000;
-    //     Move bestMove = Move.NullMove;
+        float bestEvaluation = -1000;
+        Move bestMove = Move.NullMove;
 
-    //     foreach(Move move in moves){
-    //         m_board.MakeMove(move);
-    //         float evaluation = -Search(depth - 1, -beta, -alpha);
-    //         m_board.UndoMove(move);
+        foreach(Move move in moves){
+            m_board.MakeMove(move);
+            float evaluation = -Search(depth - 1, -beta, -alpha);
+            m_board.UndoMove(move);
 
-    //         // if(searchCancelled) return 0;
+            // if(searchCancelled) return 0;
 
-    //         if(bestEvaluation < evaluation){
-    //             bestEvaluation = evaluation;
-    //             bestMove = move;
-    //         }
-    //         alpha = Math.Max(alpha, bestEvaluation);
-    //         if (alpha >= beta) break;
-    //     }
+            if(bestEvaluation < evaluation){
+                bestEvaluation = evaluation;
+                bestMove = move;
+            }
+            alpha = Math.Max(alpha, bestEvaluation);
+            if (alpha >= beta) break;
+        }
 
-    //     // we know this is the best move from this position so update the transposition table
-    //     transposition.evaluation = bestEvaluation;
-    //     transposition.zobristHash = m_board.ZobristKey;
-    //     transposition.move = bestMove;
-    //      if(bestEvaluation < startingAlpha) 
-    //             transposition.flag = 3;
-    //         else if(bestEvaluation >= beta) 
-    //         {
-    //             transposition.flag = 2;
-    //         }
-    //         else transposition.flag = 1;
-    //     transposition.depth = (sbyte)depth;
+        // we know this is the best move from this position so update the transposition table
+        transposition.evaluation = bestEvaluation;
+        transposition.zobristHash = m_board.ZobristKey;
+        transposition.move = bestMove;
+         if(bestEvaluation < startingAlpha) 
+                transposition.flag = 3;
+            else if(bestEvaluation >= beta) 
+            {
+                transposition.flag = 2;
+            }
+            else transposition.flag = 1;
+        transposition.depth = (sbyte)depth;
 
-    //     return bestEvaluation;
+        return bestEvaluation;
 
-    // }
+    }
     // void OrderMoves(ref Move[] moves, int depth)
     // {
     //     float[] movePriorities = new float[moves.Length];
@@ -267,15 +267,15 @@ public class MyBot : IChessBot
     Matrix4x4[,] PLUG(Matrix4x4[,] a, float scale, Matrix4x4[,] bias){
         for(int row = 0; row < a.GetLength(0); row++){
             for(int col = 0; col < a.GetLength(1); col++){
-                a[row, col] += bias[row, 0];
                 a[row, col] *= scale;
+                a[row, col] += bias[row, col];
             }
         }
-        for(int i = 0; i < a.GetLength(0); i++){
-            a[i, 0].M11 = Math.Max(0, a[i, 0].M11);
-            a[i, 0].M21 = Math.Max(0, a[i, 0].M21);
-            a[i, 0].M31 = Math.Max(0, a[i, 0].M31);
-            a[i, 0].M41 = Math.Max(0, a[i, 0].M41);
+        for(int i = 0; i < a.GetLength(1); i++){
+            a[0, i].M11 = Math.Max(0, a[0, i].M11);
+            a[0, i].M12 = Math.Max(0, a[0, i].M12);
+            a[0, i].M13 = Math.Max(0, a[0, i].M13);
+            a[0, i].M14 = Math.Max(0, a[0, i].M14);
         }
         return a;
     }
