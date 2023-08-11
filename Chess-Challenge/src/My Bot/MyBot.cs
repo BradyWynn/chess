@@ -13,42 +13,42 @@ public class MyBot : IChessBot
     Matrix4x4[,] q_w3 = new Matrix4x4[4, 1];
     Matrix4x4[,] b1 = new Matrix4x4[1, 4]{
                     {new Matrix4x4(-0.2105952948331833f, 0.3373734652996063f, -2.665067672729492f, -0.17655938863754272f,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0),
+                                    -0.2105952948331833f, 0.3373734652996063f, -2.665067672729492f, -0.17655938863754272f,
+                                    -0.2105952948331833f, 0.3373734652996063f, -2.665067672729492f, -0.17655938863754272f,
+                                    -0.2105952948331833f, 0.3373734652996063f, -2.665067672729492f, -0.17655938863754272f),
                     new Matrix4x4(-0.18837878108024597f, -0.31420087814331055f, -2.4298295974731445f, 0.8483097553253174f,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0), 
+                                    -0.18837878108024597f, -0.31420087814331055f, -2.4298295974731445f, 0.8483097553253174f,
+                                    -0.18837878108024597f, -0.31420087814331055f, -2.4298295974731445f, 0.8483097553253174f,
+                                    -0.18837878108024597f, -0.31420087814331055f, -2.4298295974731445f, 0.8483097553253174f), 
                     new Matrix4x4(-0.16813413798809052f, -0.5404060482978821f, 1.6258624792099f, -0.21038718521595f, 
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0),
+                                    -0.16813413798809052f, -0.5404060482978821f, 1.6258624792099f, -0.21038718521595f,
+                                    -0.16813413798809052f, -0.5404060482978821f, 1.6258624792099f, -0.21038718521595f,
+                                    -0.16813413798809052f, -0.5404060482978821f, 1.6258624792099f, -0.21038718521595f),
                     new Matrix4x4(0.9587255716323853f, -0.14954684674739838f, 1.1288930177688599f, -0.3819195330142975f,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0)}};
+                                    0.9587255716323853f, -0.14954684674739838f, 1.1288930177688599f, -0.3819195330142975f,
+                                    0.9587255716323853f, -0.14954684674739838f, 1.1288930177688599f, -0.3819195330142975f,
+                                    0.9587255716323853f, -0.14954684674739838f, 1.1288930177688599f, -0.3819195330142975f)}};
     Matrix4x4[,] b2 = new Matrix4x4[1, 4]{
                         {new Matrix4x4(-0.37279853224754333f, 2.0980989933013916f, 0.4406026005744934f, 1.8609669208526611f,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0), 
+                                    -0.37279853224754333f, 2.0980989933013916f, 0.4406026005744934f, 1.8609669208526611f,
+                                    -0.37279853224754333f, 2.0980989933013916f, 0.4406026005744934f, 1.8609669208526611f,
+                                    -0.37279853224754333f, 2.0980989933013916f, 0.4406026005744934f, 1.8609669208526611f), 
                         new Matrix4x4(-0.4291727840900421f, 1.9326260089874268f, 0.8186648488044739f, 1.2451813220977783f,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0), 
+                                    -0.4291727840900421f, 1.9326260089874268f, 0.8186648488044739f, 1.2451813220977783f,
+                                    -0.4291727840900421f, 1.9326260089874268f, 0.8186648488044739f, 1.2451813220977783f,
+                                    -0.4291727840900421f, 1.9326260089874268f, 0.8186648488044739f, 1.2451813220977783f), 
                         new Matrix4x4(1.0008747577667236f, -0.25214970111846924f, -0.650875985622406f, -2.5601110458374023f,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0), 
+                                    1.0008747577667236f, -0.25214970111846924f, -0.650875985622406f, -2.5601110458374023f,
+                                    1.0008747577667236f, -0.25214970111846924f, -0.650875985622406f, -2.5601110458374023f,
+                                    1.0008747577667236f, -0.25214970111846924f, -0.650875985622406f, -2.5601110458374023f), 
                         new Matrix4x4(-0.7385462522506714f, -0.7589142322540283f, -0.37014609575271606f, 0.5667510032653809f, 
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0)}};
+                                    -0.7385462522506714f, -0.7589142322540283f, -0.37014609575271606f, 0.5667510032653809f,
+                                    -0.7385462522506714f, -0.7589142322540283f, -0.37014609575271606f, 0.5667510032653809f,
+                                    -0.7385462522506714f, -0.7589142322540283f, -0.37014609575271606f, 0.5667510032653809f)}};
     Matrix4x4[,] b3 = {{new Matrix4x4(0.45780158042907715f, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0)}};
+                                    0.45780158042907715f, 0, 0, 0,
+                                    0.45780158042907715f, 0, 0, 0,
+                                    0.45780158042907715f, 0, 0, 0)}};
     
     float w1_S = 0.037210047245025635f;
 
@@ -60,6 +60,7 @@ public class MyBot : IChessBot
     Timer searchTimer;
     Board m_board;
     int moves_searched;
+    float[,] m_bits = new float[1, 384];
 
     struct Transposition
     {
@@ -108,10 +109,11 @@ public class MyBot : IChessBot
         m_TPTable = new Transposition[0x800000]; // intializes transposition table with 8 million spaces
     }
     public Move Think(Board board, Timer timer){
+        m_board = board;
+        InitalizeBits();
         moves_searched = 0;
         searchMaxTime = timer.MillisecondsRemaining / 50;
         searchTimer = timer;
-        m_board = board;
         // Console.WriteLine(q_w1[0, 0]);
         // set the best move to the index of the zobristkey
         // we do the bitwise and weirdness because the entire zobrist key is 64 bits
@@ -122,7 +124,7 @@ public class MyBot : IChessBot
         // which is much more managable
         // Transposition bestMove = m_TPTable[board.ZobristKey & 0x7FFFFF];
         // for(int depth = 1; depth < 5; depth++){
-        Search(5, -100, 100);
+        Search(3, -100, 100);
         Transposition bestMove = m_TPTable[board.ZobristKey & 0x7FFFFF];
             // Console.WriteLine(depth + " " + timer.MillisecondsElapsedThisTurn + " " + bestMove.move + " " + bestMove.evaluation);
 
@@ -131,23 +133,24 @@ public class MyBot : IChessBot
         //     }
         // }
         // Console.WriteLine(bestMove.evaluation);
-        Console.WriteLine(moves_searched);
+        // Console.WriteLine(moves_searched);
         return bestMove.move;
     }
-    float Eval(float[,] a){
-        Matrix4x4[,] input = new Matrix4x4[1, 96];
-        for(int i = 0; i < 96; i++){
-            input[0, i] = new Matrix4x4(a[0, 4*i+0], a[0, 4*i+1], a[0, 4*i+2], a[0, 4*i+3],
-                                        0, 0, 0, 0,
-                                        0, 0, 0, 0,
-                                        0, 0, 0, 0);
-        }
+    Matrix4x4[,] Eval(Matrix4x4[,] input){
+        // InitalizeBits();
+        // Matrix4x4[,] input = new Matrix4x4[1, 96];
+        // for(int i = 0; i < 96; i++){
+        //     input[0, i] = new Matrix4x4(m_bits[0, 4*i+0], m_bits[0, 4*i+1], m_bits[0, 4*i+2], m_bits[0, 4*i+3],
+        //                                 0, 0, 0, 0,
+        //                                 0, 0, 0, 0,
+        //                                 0, 0, 0, 0);
+        // }
         // Console.WriteLine(PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b1)[0, 0]);
         moves_searched++;
-        return PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b3)[0, 0].M11;
+        return PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b3);
     }
-    float[,] BoardToBit(){
-        float[,] bit = new float[1, 384];
+    void InitalizeBits(){
+        Array.Clear(m_bits);
         PieceType[] types = {PieceType.Pawn, PieceType.Knight, PieceType.Rook, PieceType.Bishop, PieceType.Queen, PieceType.King};
         bool[] colors = {true, false};
         int count = 0;
@@ -156,12 +159,50 @@ public class MyBot : IChessBot
                 string c = new String(Convert.ToString((long)m_board.GetPieceBitboard(type, color), 2).PadLeft(64, '0').Reverse().ToArray());
                 for(int i = 0; i < 64; i++)
                     if(int.Parse(c.Substring(i, 1)) != 0)
-                        bit[0, count * 64 + i] = (Convert.ToInt32(color) * 2 - 1) * (Convert.ToInt32(m_board.IsWhiteToMove) * 2 - 1) * int.Parse(c.Substring(i, 1));
+                        m_bits[0, count * 64 + i] = (Convert.ToInt32(color) * 2 - 1) * (Convert.ToInt32(m_board.IsWhiteToMove) * 2 - 1) * int.Parse(c.Substring(i, 1));
             }
             count++; 
         }
-        return bit;
     }
+    // void UpdateBits(Move move){
+    //     for(int i = 0; i < 384; i++){
+    //         m_bits[0, i] *= -1;
+    //     }
+    //     m_bits[0, move.StartSquare.Index + 64 * 1] = 0;
+
+    //     if(move.IsCapture){
+    //         m_bits[0, move.TargetSquare.Index * (int)move.CapturePieceType] = 0;
+    //     }
+    //     if(move.IsPromotion){
+    //         m_bits[0, move.TargetSquare.Index * (int)move.PromotionPieceType] = 1;
+    //     }
+    //     else{
+    //         m_bits[0, move.TargetSquare.Index + 64 * 1] = -1;
+    //     }
+    //     if(move.IsCastles){
+    //         if(m_board.IsWhiteToMove){
+    //             if(move.TargetSquare.Index == 58){
+    //                 m_bits[0, 56 + 64 * (int)PieceType.Rook] = 0;
+    //                 m_bits[0, 59 + 64 * (int)PieceType.Rook] = 1;
+    //             }
+    //             if(move.TargetSquare.Index == 62){
+    //                 m_bits[0, 63 + 64 * (int)PieceType.Rook] = 0;
+    //                 m_bits[0, 61 + 64 * (int)PieceType.Rook] = 1;
+    //             }
+    //         }
+    //         else{
+    //             if(move.TargetSquare.Index == 2){
+    //                 m_bits[0, 0 + 64 * (int)PieceType.Rook] = 0;
+    //                 m_bits[0, 3 + 64 * (int)PieceType.Rook] = 1;
+    //             }
+    //             if(move.TargetSquare.Index == 6){
+    //                 m_bits[0, 7 + 64 * (int)PieceType.Rook] = 0;
+    //                 m_bits[0, 5 + 64 * (int)PieceType.Rook] = 1;
+    //             }
+    //         }
+    //     }
+
+    // }
     // float Quiesce(float alpha, float beta){
     //     float stand_pat = Eval(BoardToBit());
     //     float score;
@@ -200,9 +241,9 @@ public class MyBot : IChessBot
         // if we have reached our depth evaluate the position
         // evaluation function produces values close to 1 for winning positions
         // and values close to 0 for losing positions regardless of color
-        if(depth == 0 || (moves = m_board.GetLegalMoves()).Length == 0) return Eval(BoardToBit()); 
+        if(depth == 0 || (moves = m_board.GetLegalMoves()).Length == 0) return transposition.evaluation; 
 
-        // OrderMoves(ref moves, depth);
+        OrderMoves(ref moves, depth);
         
         float bestEvaluation = -1000;
         Move bestMove = Move.NullMove;
@@ -238,13 +279,52 @@ public class MyBot : IChessBot
         return bestEvaluation;
 
     }
-    // void OrderMoves(ref Move[] moves, int depth)
-    // {
-    //     float[] movePriorities = new float[moves.Length];
-    //     for(int m = 0; m < moves.Length; m++) movePriorities[m] = Eval(BoardToBit());
-    //     Array.Sort(movePriorities, moves);
-    //     Array.Reverse(moves);
-    // }
+    void OrderMoves(ref Move[] moves, int depth){
+        Matrix4x4[,] input = new Matrix4x4[(int)Math.Ceiling((double)(moves.Length/4)), 96];
+        float[,] temp_bits = new float[moves.Length, 384];
+        for(int row = 0; row < moves.Length; row++){
+            m_board.MakeMove(moves[row]);
+            InitalizeBits();
+            for(int col = 0; col < 384; col++){
+                temp_bits[row, col] = m_bits[0, col];
+            }
+            m_board.UndoMove(moves[row]);
+        }
+        for(int row = 0; row < input.GetLength(0); row++){
+            for(int i = 0; i < input.GetLength(1); i++){
+                input[row, i] = new Matrix4x4(temp_bits[row+0, 4*i+0], temp_bits[row+0, 4*i+1], temp_bits[row+0, 4*i+2], temp_bits[row+0, 4*i+3],
+                                            temp_bits[row+1, 4*i+0], temp_bits[row+1, 4*i+1], temp_bits[row+1, 4*i+2], temp_bits[row+1, 4*i+3],
+                                            temp_bits[row+2, 4*i+0], temp_bits[row+2, 4*i+1], temp_bits[row+2, 4*i+2], temp_bits[row+2, 4*i+3],
+                                            temp_bits[row+3, 4*i+0], temp_bits[row+3, 4*i+1], temp_bits[row+3, 4*i+2], temp_bits[row+3, 4*i+3]);
+            }
+        }
+
+        Matrix4x4[,] logits = Eval(input);
+
+        if(depth == 1){
+            // PrintMatrix4x4(logits);
+            // Console.WriteLine();
+        }
+
+        float[] movePriorities = new float[moves.Length];
+        for(int i = 0; i < logits.GetLength(0); i+=4){
+            movePriorities[i+0] = logits[i, 0].M11;
+            movePriorities[i+1] = logits[i, 0].M21;
+            movePriorities[i+2] = logits[i, 0].M31;
+            movePriorities[i+3] = logits[i, 0].M41;
+        }
+        for(int i = 0; i < moves.Length; i++){
+            m_board.MakeMove(moves[i]);
+            ref Transposition transposition = ref m_TPTable[m_board.ZobristKey & 0x7FFFFF];
+            transposition.evaluation = movePriorities[i];
+            transposition.move = moves[i];
+            transposition.zobristHash = m_board.ZobristKey;
+            transposition.depth = (sbyte)depth;
+            m_board.UndoMove(moves[i]);
+        }
+        Array.Sort(movePriorities, moves);
+        Array.Reverse(moves);
+    }
     static Matrix4x4[,] MatMul(Matrix4x4[,] a, Matrix4x4[,] b){
         int rowsA = a.GetLength(0);
         int colsA = a.GetLength(1);
@@ -268,15 +348,44 @@ public class MyBot : IChessBot
         for(int row = 0; row < a.GetLength(0); row++){
             for(int col = 0; col < a.GetLength(1); col++){
                 a[row, col] *= scale;
-                a[row, col] += bias[row, col];
+                a[row, col] += bias[0, col];
             }
         }
-        for(int i = 0; i < a.GetLength(1); i++){
-            a[0, i].M11 = Math.Max(0, a[0, i].M11);
-            a[0, i].M12 = Math.Max(0, a[0, i].M12);
-            a[0, i].M13 = Math.Max(0, a[0, i].M13);
-            a[0, i].M14 = Math.Max(0, a[0, i].M14);
+        for(int row = 0; row < a.GetLength(0); row++){
+            for(int i = 0; i < a.GetLength(1); i++){
+                a[row, i].M11 = Math.Max(0, a[row, i].M11);
+                a[row, i].M12 = Math.Max(0, a[row, i].M12);
+                a[row, i].M13 = Math.Max(0, a[row, i].M13);
+                a[row, i].M14 = Math.Max(0, a[row, i].M14);
+
+                a[row, i].M21 = Math.Max(0, a[row, i].M21);
+                a[row, i].M22 = Math.Max(0, a[row, i].M22);
+                a[row, i].M23 = Math.Max(0, a[row, i].M23);
+                a[row, i].M24 = Math.Max(0, a[row, i].M24);
+                
+                a[row, i].M31 = Math.Max(0, a[row, i].M31);
+                a[row, i].M32 = Math.Max(0, a[row, i].M32);
+                a[row, i].M33 = Math.Max(0, a[row, i].M33);
+                a[row, i].M34 = Math.Max(0, a[row, i].M34);
+
+                a[row, i].M41 = Math.Max(0, a[row, i].M41);
+                a[row, i].M42 = Math.Max(0, a[row, i].M42);
+                a[row, i].M43 = Math.Max(0, a[row, i].M43);
+                a[row, i].M44 = Math.Max(0, a[row, i].M44);
+            }
         }
         return a;
+    }
+
+    void PrintMatrix4x4(Matrix4x4[,] a){
+        for(int r1 = 0; r1 < a.GetLength(0); r1++){
+            for(int c1 = 0; c1 < a.GetLength(1); c1++){
+                Matrix4x4 a_ = a[r1, c1];
+                Console.WriteLine(a_.M11 + " " + a_.M12 + " " + a_.M13 + " " + a_.M14 + " ");
+                Console.WriteLine(a_.M21 + " " + a_.M22 + " " + a_.M23 + " " + a_.M24 + " ");
+                Console.WriteLine(a_.M31 + " " + a_.M32 + " " + a_.M33 + " " + a_.M34 + " ");
+                Console.WriteLine(a_.M41 + " " + a_.M42 + " " + a_.M43 + " " + a_.M44 + " ");
+            }
+        }
     }
 }
