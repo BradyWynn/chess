@@ -16,8 +16,8 @@ public class Barnes2 : IChessBot
     double w2_S = 0.020057767629623413;
 
     double w3_S = 0.011218558996915817;
-    bool searchCancelled => searchTimer.MillisecondsElapsedThisTurn > searchMaxTime;
-    int searchMaxTime;
+    // bool searchCancelled => searchTimer.MillisecondsElapsedThisTurn > searchMaxTime;
+    // int searchMaxTime;
     Timer searchTimer;
     Move bestMoveThisIteration;
     Move bestMove;
@@ -45,22 +45,25 @@ public class Barnes2 : IChessBot
         }
     }
     public Move Think(Board board, Timer timer){
-        searchMaxTime = timer.MillisecondsRemaining / 50;
-        searchTimer = timer;
-        for(int depth = 2; depth < 100; depth++){
-            bestMoveThisIteration = Move.NullMove;
-            bestEvalThisIteration = -100;
-            mDepth = depth;
-            Search(board, mDepth, -100, 100);
-            if(searchCancelled){
-                break;
-            }
-            else{
-                bestMove = bestMoveThisIteration;
-                bestEval = bestEvalThisIteration;
+        // searchMaxTime = timer.MillisecondsRemaining / 50;
+        // searchTimer = timer;
+        // for(int depth = 2; depth < 100; depth++){
+        //     bestMoveThisIteration = Move.NullMove;
+        //     bestEvalThisIteration = -100;
+        //     mDepth = depth;
+        //     Search(board, mDepth, -100, 100);
+        //     if(searchCancelled){
+        //         break;
+        //     }
+        //     else{
+        //         bestMove = bestMoveThisIteration;
+        //         bestEval = bestEvalThisIteration;
 
-            }
-        }
+        //     }
+        // }
+        mDepth = 3;
+        Search(board, mDepth, -100, 100);
+        bestMove = bestMoveThisIteration;
         return bestMove;
     }
     double Eval(double[,] a){
@@ -83,9 +86,9 @@ public class Barnes2 : IChessBot
         return bit;
     }
     double Search(Board board, int depth, double alpha, double beta){
-        if(searchCancelled){
-            return 0;
-        }
+        // if(searchCancelled){
+        //     return 0;
+        // }
 
         if (board.IsDraw())
             return 0;
