@@ -15,7 +15,7 @@ namespace ChessChallenge.Example
         public Move Think(Board board, Timer timer)
         {
             // Move[] legalMoves = board.GetLegalMoves();
-            mDepth = 4;
+            mDepth = 3;
 
             EvaluateBoardNegaMax(board, mDepth, -kMassiveNum, kMassiveNum, board.IsWhiteToMove ? 1 : -1);
             board.MakeMove(mBestMove);

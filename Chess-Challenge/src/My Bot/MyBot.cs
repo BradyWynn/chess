@@ -102,7 +102,6 @@ public class MyBot : IChessBot{
 									 a[4], a[5], a[6], a[7],
 									 b[0], b[1], b[2], b[3],
 									 b[4], b[5], b[6], b[7]);
-				// quantized_weights[count][(8 * x + y) / rows[count], (8 * x + y) % rows[count]] = Convert.ToInt32(str.Substring(y*8, 8), 2) + zeros[count];
 				quantized_weights[count][x/rows[count], (x % rows[count])/2] = sun;
 			}
 			count++;
@@ -153,12 +152,10 @@ public class MyBot : IChessBot{
 		// Console.WriteLine(m_board.GetFenString());
 		// Move[] moves = m_board.GetLegalMoves();
 		// OrderMoves(ref moves, 0);
-		// Console.WriteLine(moves_searched);
+		// Console.WriteLine(bestMove.evaluation);
 		return bestMove.move;
 	}
 	Matrix4x4[,] Eval(Matrix4x4[,] input){
-		// moves_searched++;
-		// Console.WriteLine(PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1), q_w2), w2_S, b2), q_w3), w3_S, b1)[0, 0]);
 		return PLUG(MatMul(PLUG(MatMul(PLUG(MatMul(input, q_w1), w1_S, b1, true), q_w2), w2_S, b2, true), q_w3), w3_S, b3, false);
 	}
 	void InitalizeBits(){
@@ -230,14 +227,14 @@ public class MyBot : IChessBot{
 		}
 		m_bits[0, move.StartSquare.Index + 64 * ((int)move.MovePieceType - 1)] = a * -1;
 
-		if(move.IsCapture){
-			m_bits[0, move.TargetSquare.Index + 64 * ((int)move.CapturePieceType - 1)] = a;
-		}
 		if(move.IsPromotion){
 			m_bits[0, move.TargetSquare.Index + 64 * ((int)move.PromotionPieceType - 1)] = 0;
 		}
 		else{
 			m_bits[0, move.TargetSquare.Index + 64 * ((int)move.MovePieceType - 1)] = 0;
+		}
+		if(move.IsCapture){
+			m_bits[0, move.TargetSquare.Index + 64 * ((int)move.CapturePieceType - 1)] = a;
 		}
 		if(move.IsCastles){
 			if(!m_board.IsWhiteToMove){
@@ -302,7 +299,7 @@ public class MyBot : IChessBot{
 		// and values close to 0 for losing positions regardless of color
 		if(depth == 0 || (moves = m_board.GetLegalMoves()).Length == 0) {
 			if (m_board.IsInCheckmate())
-				return -9999999;
+				return -100;
 			return transposition.evaluation; 
 		}
 
@@ -343,7 +340,6 @@ public class MyBot : IChessBot{
 
 	}
 	void OrderMoves(ref Move[] moves, int depth){
-		// Console.WriteLine(m_board.IsWhiteToMove);
 		// Console.WriteLine(m_board.GetFenString());
 		// Console.Write("(");
 		// for(int x = 0; x < m_bits.Length; x++){
@@ -513,16 +509,5 @@ public class MyBot : IChessBot{
 			}
 		}
 		return a;
-	}
-	void PrintMatrix4x4(Matrix4x4[,] a){
-		for(int r1 = 0; r1 < a.GetLength(0); r1++){
-			for(int c1 = 0; c1 < a.GetLength(1); c1++){
-				Matrix4x4 a_ = a[r1, c1];
-				Console.WriteLine(a_.M11 + " " + a_.M12 + " " + a_.M13 + " " + a_.M14 + " ");
-				Console.WriteLine(a_.M21 + " " + a_.M22 + " " + a_.M23 + " " + a_.M24 + " ");
-				Console.WriteLine(a_.M31 + " " + a_.M32 + " " + a_.M33 + " " + a_.M34 + " ");
-				Console.WriteLine(a_.M41 + " " + a_.M42 + " " + a_.M43 + " " + a_.M44 + " ");
-			}
-		}
 	}
 }

@@ -16,8 +16,6 @@ public class Barnes2 : IChessBot
     double w2_S = 0.020057767629623413;
 
     double w3_S = 0.011218558996915817;
-    // bool searchCancelled => searchTimer.MillisecondsElapsedThisTurn > searchMaxTime;
-    // int searchMaxTime;
     Timer searchTimer;
     Move bestMoveThisIteration;
     Move bestMove;
@@ -45,22 +43,6 @@ public class Barnes2 : IChessBot
         }
     }
     public Move Think(Board board, Timer timer){
-        // searchMaxTime = timer.MillisecondsRemaining / 50;
-        // searchTimer = timer;
-        // for(int depth = 2; depth < 100; depth++){
-        //     bestMoveThisIteration = Move.NullMove;
-        //     bestEvalThisIteration = -100;
-        //     mDepth = depth;
-        //     Search(board, mDepth, -100, 100);
-        //     if(searchCancelled){
-        //         break;
-        //     }
-        //     else{
-        //         bestMove = bestMoveThisIteration;
-        //         bestEval = bestEvalThisIteration;
-
-        //     }
-        // }
         mDepth = 3;
         Search(board, mDepth, -100, 100);
         bestMove = bestMoveThisIteration;
@@ -121,16 +103,6 @@ public class Barnes2 : IChessBot
         return recordEval;
 
     }
-    // Move[] MoveOrdering(Move[] moves, Board board){
-    //     SortedDictionary<double, Move> dict = new SortedDictionary<double, Move>();
-    //     for(int i = 0; i < moves.Length; i++){
-    //         board.MakeMove(moves[i]);
-    //         dict.Add(Eval(BoardToBit(board)), moves[i]);
-    //         board.UndoMove(moves[i]);
-    //     }
-    //     Move[] output = dict.Values.ToArray();
-    //     return output;
-    // }
     double[,] MatMul(double[,] a, double[,] b){
         double[,] c = new double[a.GetLength(0), b.GetLength(1)];
         for(int row = 0; row < a.GetLength(0); row++)
